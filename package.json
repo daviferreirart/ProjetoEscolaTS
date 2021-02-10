@@ -2,5 +2,15 @@
   "name": "ProjetoEscolaTS",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/main/index.ts"
+  },
+  "dependencies": {
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.4",
+    "ts-node-dev": "^1.1.1"
+  }
 }
