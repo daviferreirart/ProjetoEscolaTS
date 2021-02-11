@@ -3,7 +3,7 @@ import mysql, { Connection } from 'mysql2/promise';
 abstract class Database {
     static connection: Connection;
 
-    static async connect() {
+    static async connect(): Promise<void> {
         this.connection = await mysql.createConnection({
             host: 'localhost',
             port: 3306,
