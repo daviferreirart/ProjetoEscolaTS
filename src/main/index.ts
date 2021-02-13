@@ -14,5 +14,7 @@ async function main() {
         nome: 'mario',
         sexo: 'm',
     }); */
+
+    await ProfessorDAO.findById(18);
 }
 main();
