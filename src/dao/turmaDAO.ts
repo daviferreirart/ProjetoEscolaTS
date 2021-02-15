@@ -11,7 +11,7 @@ abstract class TurmaDAO {
         semestre,
     }: CreateTurmaDTO): Promise<Turma> {
         const rs = await Database.connection.query<ResultSetHeader>(`
-        INSERT INTO TURMA(NOME,PROFESSORID,DISCIPLINAID,SEMESTRE) VALUES (
+        INSERT INTO TURMA(PROFESSORID,DISCIPLINAID,SEMESTRE) VALUES (
         ${professorID},${disciplinaID},${semestre}`);
         const turma = new Turma(rs[0].insertId);
     }
