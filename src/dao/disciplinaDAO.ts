@@ -1,4 +1,4 @@
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader } from 'mysql2/promise';
 import Database from '../database/database';
 import Disciplina from '../models/disciplina';
 import CreateDisciplonaDTO from './dto/CreateDisciplinaDTO';

@@ -8,8 +8,8 @@ abstract class Database {
             host: 'localhost',
             port: 3306,
             user: 'root',
-            password: 'DAVI890',
-            database: 'escola',
+            password: 'password',
+            database: 'ESCOLA',
         });
         console.log('Conectado ao banco!');
     }

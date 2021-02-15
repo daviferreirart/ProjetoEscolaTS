@@ -1,4 +1,4 @@
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader } from 'mysql2/promise';
 import Database from '../database/database';
 import Aluno from '../models/aluno';
 import CreateAlunoDTO from './dto/CreateAlunoDTO';
