@@ -1,4 +1,4 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { OkPacket, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import Database from '../database/database';
 import Professor from '../models/professor';
 import CreateProfessorDTO from './dto/CreateProfessorDTO';
@@ -21,7 +21,9 @@ abstract class ProfessorDAO {
         const rs = await Database.connection.query<RowDataPacket[]>(
             `SELECT * FROM PROFESSOR WHERE ID = ${id}`,
         );
-        console.log(rs[0][0]);
+        const data = rs[0][0];
+        const professor = new Professor(data.ID, data.NOME, data.SEXO);
+        return professor;
     }
 }
 export default ProfessorDAO;
