@@ -6,7 +6,6 @@ class Turma {
         public id: number,
         public professor: Professor,
         public disciplina: Disciplina,
-        public semestre: string,
     ) {}
 }
 export default Turma;
