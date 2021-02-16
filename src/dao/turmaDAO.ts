@@ -8,16 +8,20 @@ import ProfessorDAO from './professorDAO';
 
 abstract class TurmaDAO {
     public static async create({
-        professorID,
-        disciplinaID,
-    }: CreateTurmaDTO): Promise<Turma> {
+        professorId,
+        disciplinaId,
+    }: CreateTurmaDTO): Promise<Turma | null> {
         const rs = await Database.connection.query<ResultSetHeader>(`
         INSERT INTO TURMA(PROFESSORID,DISCIPLINAID) VALUES (
-        ${professorID},${disciplinaID}`);
-        const professorId = await ProfessorDAO.findById(professorID);
-        const disciplinaId = await DisciplinaDAO.findById(disciplinaID);
-        const turma = new Turma(rs[0].insertId, professorId, disciplinaId);
-        return turma;
+        ${professorId},${disciplinaId})`);
+        const professor = await ProfessorDAO.findById(professorId);
+        const disciplina = await DisciplinaDAO.findById(disciplinaId);
+        if (professor && disciplina) {
+            console.log('FUNFOU');
+            const turma = new Turma(rs[0].insertId, professorId, disciplinaId);
+            return turma;
+        }
+        return null;
     }
 }
 

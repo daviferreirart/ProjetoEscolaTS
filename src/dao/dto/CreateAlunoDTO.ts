@@ -1,4 +1,4 @@
-export default interface CreateAlunoDTO {
-    nome: string;
-    sexo: string;
-}
+import Aluno from '../../models/aluno';
+
+type CreateAlunoDTO = Omit<Aluno, 'matricula'>;
+export default CreateAlunoDTO;

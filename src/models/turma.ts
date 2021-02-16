@@ -4,8 +4,8 @@ import Professor from './professor';
 class Turma {
     constructor(
         public id: number,
-        public professor: Professor,
-        public disciplina: Disciplina,
+        public professorId: number,
+        public disciplinaId: number,
     ) {}
 }
 export default Turma;

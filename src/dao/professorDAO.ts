@@ -1,4 +1,4 @@
-import { OkPacket, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import Database from '../database/database';
 import Professor from '../models/professor';
 import CreateProfessorDTO from './dto/CreateProfessorDTO';
