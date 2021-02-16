@@ -1,6 +1,5 @@
 import { ResultSetHeader } from 'mysql2/promise';
 import Database from '../database/database';
-import Disciplina from '../models/disciplina';
 import Turma from '../models/turma';
 import DisciplinaDAO from './disciplinaDAO';
 import CreateTurmaDTO from './dto/CreateTurmaDTO';
@@ -15,6 +14,7 @@ abstract class TurmaDAO {
         INSERT INTO TURMA(PROFESSORID,DISCIPLINAID) VALUES (
         ${professorId},${disciplinaId})`);
         const professor = await ProfessorDAO.findById(professorId);
+
         const disciplina = await DisciplinaDAO.findById(disciplinaId);
         if (professor && disciplina) {
             console.log('FUNFOU');

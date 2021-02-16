@@ -11,21 +11,21 @@ const aluno = new Aluno(5, 'Davi', 'M');
 async function main() {
     await Database.connect();
     /* await AlunoDAO.create({
-        nome: 'francisca simone',
+        nome: 'davi ',
         sexo: 'f',
     });
     await ProfessorDAO.create({
-        nome: 'juliano',
+        nome: 'Marcio',
         sexo: 'm',
-    }); */
+    });
 
     // const professor = await ProfessorDAO.findById(1);
-    // console.log(professor);
-    /* await DisciplinaDAO.create({
-        nome: 'piru',
-    }); */
-    const disciplina = await DisciplinaDAO.findById(2);
-    const professor = await ProfessorDAO.findById(1);
+    // console.log(professor); */
+    await DisciplinaDAO.create({
+        nome: 'POO',
+    });
+    const disciplina = await DisciplinaDAO.findById(8);
+    const professor = await ProfessorDAO.findById(5);
     const turma = await TurmaDAO.create({
         disciplinaId: disciplina.id,
         professorId: professor.id,

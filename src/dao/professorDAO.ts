@@ -7,23 +7,29 @@ abstract class ProfessorDAO {
     public static async create({
         nome,
         sexo,
-    }: CreateProfessorDTO): Promise<Professor> {
+    }: CreateProfessorDTO): Promise<Professor | null> {
         const rs = await Database.connection.query<ResultSetHeader>(
             `INSERT INTO PROFESSOR(NOME,SEXO) VALUES ('${nome
                 .trim()
                 .toUpperCase()}','${sexo.trim().toUpperCase()}')`,
         );
-        const professor = new Professor(rs[0].insertId, nome, sexo);
-        return professor;
+        if (rs[0].insertId) {
+            const professor = new Professor(rs[0].insertId, nome, sexo);
+            return professor;
+        }
+        return null;
     }
 
-    public static async findById(id: number): Promise<Professor> {
+    public static async findById(id: number): Promise<Professor | null> {
         const rs = await Database.connection.query<RowDataPacket[]>(
             `SELECT * FROM PROFESSOR WHERE ID = ${id}`,
         );
         const data = rs[0][0];
-        const professor = new Professor(data.ID, data.NOME, data.SEXO);
-        return professor;
+        if (data.ID) {
+            const professor = new Professor(data.ID, data.NOME, data.SEXO);
+            return professor || null;
+        }
+        return null;
     }
 }
 export default ProfessorDAO;
