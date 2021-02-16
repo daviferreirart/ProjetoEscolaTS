@@ -25,10 +25,10 @@ async function main() {
         nome: 'piru',
     }); */
     const disciplina = await DisciplinaDAO.findById(2);
-    console.log(disciplina);
+    const professor = await ProfessorDAO.findById(1);
     const turma = await TurmaDAO.create({
-        professorID: ProfessorDAO.findById(2),
-        disciplinaID: DisciplinaDAO.findById(1),
+        disciplinaId: disciplina.id,
+        professorId: professor.id,
     });
     console.log(turma);
 }
