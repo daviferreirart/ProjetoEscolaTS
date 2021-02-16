@@ -24,11 +24,11 @@ async function main() {
     await DisciplinaDAO.create({
         nome: 'POO',
     });
-    const disciplina = await DisciplinaDAO.findById(8);
-    const professor = await ProfessorDAO.findById(5);
     const turma = await TurmaDAO.create({
-        disciplinaId: disciplina.id,
-        professorId: professor.id,
+        disciplinaId: 1,
+        professorId: 5,
+        semestre: 1,
+        ano: 2021,
     });
     console.log(turma);
 }

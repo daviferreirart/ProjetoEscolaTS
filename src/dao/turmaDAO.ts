@@ -9,16 +9,23 @@ abstract class TurmaDAO {
     public static async create({
         professorId,
         disciplinaId,
+        semestre,
+        ano,
     }: CreateTurmaDTO): Promise<Turma | null> {
-        const rs = await Database.connection.query<ResultSetHeader>(`
-        INSERT INTO TURMA(PROFESSORID,DISCIPLINAID) VALUES (
-        ${professorId},${disciplinaId})`);
         const professor = await ProfessorDAO.findById(professorId);
-
         const disciplina = await DisciplinaDAO.findById(disciplinaId);
+
         if (professor && disciplina) {
-            console.log('FUNFOU');
-            const turma = new Turma(rs[0].insertId, professorId, disciplinaId);
+            const rs = await Database.connection.query<ResultSetHeader>(`
+                INSERT INTO TURMA(PROFESSORID,DISCIPLINAID,SEMESTRE,ANO) VALUES (
+                ${professorId}, ${disciplinaId},${semestre},${ano})`);
+            const turma = new Turma(
+                rs[0].insertId,
+                professorId,
+                disciplinaId,
+                semestre,
+                ano,
+            );
             return turma;
         }
         return null;

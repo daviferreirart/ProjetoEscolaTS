@@ -25,10 +25,12 @@ abstract class ProfessorDAO {
             `SELECT * FROM PROFESSOR WHERE ID = ${id}`,
         );
         const data = rs[0][0];
-        if (data.ID) {
+        if (data) {
             const professor = new Professor(data.ID, data.NOME, data.SEXO);
-            return professor || null;
+            console.log('Professor encontrado!');
+            return professor;
         }
+        console.log('Professor não encontrado');
         return null;
     }
 }
