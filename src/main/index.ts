@@ -38,5 +38,8 @@ async function main() {
     /* const remove = await AlunoDAO.removeById({
         matricula: 6,
     }); */
+    const resultadodis = await DisciplinaDAO.removeById({
+        id: 10,
+    });
 }
 main();

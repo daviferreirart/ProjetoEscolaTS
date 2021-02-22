@@ -30,5 +30,19 @@ abstract class DisciplinaDAO {
         }
         return null;
     }
+
+    public static async removeById({
+        id,
+    }: Pick<Disciplina, 'id'>): Promise<void> {
+        const rs = await Database.connection.query<ResultSetHeader>(
+            `DELETE FROM DISCIPLINAS WHERE ID  = '${id}'`,
+        );
+        const resultado = rs[0].affectedRows;
+        if (resultado > 0) {
+            console.log('Disciplina removida com sucesso!');
+        } else {
+            console.log('Disciplina não encontrada!');
+        }
+    }
 }
 export default DisciplinaDAO;
