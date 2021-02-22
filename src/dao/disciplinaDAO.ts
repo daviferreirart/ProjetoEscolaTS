@@ -35,7 +35,7 @@ abstract class DisciplinaDAO {
         id,
     }: Pick<Disciplina, 'id'>): Promise<void> {
         const rs = await Database.connection.query<ResultSetHeader>(
-            `DELETE FROM DISCIPLINAS WHERE ID  = '${id}'`,
+            `DELETE FROM DISCIPLINAS WHERE ID  = ${id}`,
         );
         const resultado = rs[0].affectedRows;
         if (resultado > 0) {

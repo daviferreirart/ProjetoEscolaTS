@@ -33,5 +33,19 @@ abstract class ProfessorDAO {
         console.log('Professor não encontrado');
         return null;
     }
+
+    public static async removeById({
+        id,
+    }: Pick<Professor, 'id'>): Promise<void> {
+        const rs = await Database.connection.query<ResultSetHeader>(
+            `DELETE FROM PROFESSOR WHERE ID = ${id}`,
+        );
+        const resultado = rs[0].affectedRows;
+        if (resultado > 0) {
+            console.log('Professor removido com sucesso!');
+        } else {
+            console.log('Nenhum professor foi encontrado');
+        }
+    }
 }
 export default ProfessorDAO;
