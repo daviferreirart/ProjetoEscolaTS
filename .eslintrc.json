@@ -19,6 +19,7 @@
         "prettier"
     ],
     "rules": {
+        "no-param-reassign": "off",
         "no-useless-constructor": "off",
         "no-use-before-define": "off",
         "prettier/prettier": "error",

@@ -21,9 +21,7 @@ abstract class AlunoDAO {
         return null;
     }
 
-    public static async findById({
-        matricula,
-    }: Pick<Aluno, 'matricula'>): Promise<Aluno | null> {
+    public static async findById(matricula: number): Promise<Aluno | null> {
         const rs = await Database.connection.query<RowDataPacket[]>(
             `SELECT * FROM ALUNOS WHERE MATRICULA = '${matricula}'`,
         );
@@ -49,6 +47,25 @@ abstract class AlunoDAO {
         } else {
             console.log('Não foi encontrado nenhum aluno com esta matricula!');
         }
+    }
+
+    public static async update(
+        matricula: number,
+        { nome, sexo }: Partial<Omit<Aluno, 'matricula'>>,
+    ): Promise<Aluno | undefined> {
+        const aluno = await this.findById(matricula);
+        if (aluno) {
+            if (nome) nome = nome.trim().toUpperCase();
+            if (sexo) sexo = sexo.trim().toUpperCase();
+            const rs = await Database.connection.query<ResultSetHeader>(
+                `UPDATE ALUNOS SET NOME='${nome || aluno.nome}',SEXO ='${
+                    sexo || aluno.sexo
+                }' WHERE MATRICULA = ${matricula}`,
+            );
+            return new Aluno(matricula, nome || aluno.nome, sexo || aluno.sexo);
+        }
+        console.log('Não existe nenhum aluno com essa matricula');
+        return undefined;
     }
 }
 export default AlunoDAO;

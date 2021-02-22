@@ -1,4 +1,4 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
+import { ResultSetHeader, RowDataPacket, QueryError } from 'mysql2/promise';
 import Database from '../database/database';
 import Disciplina from '../models/disciplina';
 import CreateDisciplonaDTO from './dto/CreateDisciplinaDTO';
@@ -24,7 +24,7 @@ abstract class DisciplinaDAO {
             `SELECT * FROM DISCIPLINAS WHERE ID = ${id}`,
         );
         const data = rs[0][0];
-        if (data.ID) {
+        if (data) {
             const disciplina = new Disciplina(data.ID, data.NOME);
             return disciplina;
         }
@@ -34,14 +34,26 @@ abstract class DisciplinaDAO {
     public static async removeById({
         id,
     }: Pick<Disciplina, 'id'>): Promise<void> {
-        const rs = await Database.connection.query<ResultSetHeader>(
-            `DELETE FROM DISCIPLINAS WHERE ID  = ${id}`,
-        );
-        const resultado = rs[0].affectedRows;
-        if (resultado > 0) {
-            console.log('Disciplina removida com sucesso!');
-        } else {
-            console.log('Disciplina não encontrada!');
+        try {
+            const rs = await Database.connection.query<ResultSetHeader>(
+                `DELETE FROM DISCIPLINAS WHERE ID  = ${id}`,
+            );
+            const resultado = rs[0].affectedRows;
+            if (resultado > 0) {
+                console.log('Disciplina removida com sucesso!');
+            } else {
+                console.log('Disciplina não encontrada!');
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                if (error.code === 'ER_ROW_IS_REFERENCED_2') {
+                    console.log(
+                        'Não foi possivel remover a disciplina, ela está vinculada a alguma turma! ',
+                    );
+                } else {
+                    console.log('Erro ao remover a disciplina');
+                }
+            }
         }
     }
 }

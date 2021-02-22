@@ -25,25 +25,26 @@ async function main() {
         nome: 'POO',
     }); */
     /* const turma = await TurmaDAO.create({
-        disciplinaId: 1,
+        disciplinaId: 6,
         professorId: 5,
         semestre: 1,
         ano: 2021,
     });
     console.log(turma); */
-    const resultado = await AlunoDAO.findById({
+    /* const resultado = await AlunoDAO.findById({
         matricula: 6,
     });
-    console.log(resultado);
+    console.log(resultado); */
     /* const remove = await AlunoDAO.removeById({
         matricula: 6,
     }); */
-    /* const resultadodis = await DisciplinaDAO.removeById({
-        id: 10,
-    }); */
-    // const resultadoprofid = await ProfessorDAO.findById(5);
-    const resultadoprof = await ProfessorDAO.removeById({
-        id: 7,
+    const resultadodis = await DisciplinaDAO.removeById({
+        id: 20,
     });
+    // const resultadoprofid = await ProfessorDAO.findById(5);
+    /* const resultadoprof = await ProfessorDAO.removeById({
+        id: 7,
+    }); */
+    const up = await AlunoDAO.update(9, { sexo: 'm' });
 }
 main();
