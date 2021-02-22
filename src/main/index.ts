@@ -32,8 +32,11 @@ async function main() {
     });
     console.log(turma); */
     const resultado = await AlunoDAO.findById({
-        matricula: 7,
+        matricula: 6,
     });
     console.log(resultado);
+    /* const remove = await AlunoDAO.removeById({
+        matricula: 6,
+    }); */
 }
 main();

@@ -15,6 +15,7 @@ abstract class AlunoDAO {
         );
         if (rs[0].insertId) {
             const aluno = new Aluno(rs[0].insertId, nome, sexo);
+            console.log('Aluno criado com sucesso');
             return aluno;
         }
         return null;
@@ -29,9 +30,25 @@ abstract class AlunoDAO {
         const data = rs[0][0];
         if (data) {
             const aluno = new Aluno(data.MATRICULA, data.NOME, data.SEXO);
+            console.log('Aluno encontrado com sucesso!');
             return aluno;
         }
+        console.log('Aluno não encontrado!');
         return null;
+    }
+
+    public static async removeById({
+        matricula,
+    }: Pick<Aluno, 'matricula'>): Promise<void> {
+        const rs = await Database.connection.query<ResultSetHeader>(
+            `DELETE FROM ALUNOS WHERE MATRICULA = '${matricula}'`,
+        );
+        const data = rs[0].affectedRows;
+        if (data > 0) {
+            console.log('Aluno foi removido com sucesso!');
+        } else {
+            console.log('Não foi encontrado nenhum aluno com esta matricula!');
+        }
     }
 }
 export default AlunoDAO;
