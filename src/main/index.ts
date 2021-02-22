@@ -11,25 +11,29 @@ const aluno = new Aluno(5, 'Davi', 'M');
 async function main() {
     await Database.connect();
     /* await AlunoDAO.create({
-        nome: 'davi ',
+        nome: 'emily ',
         sexo: 'f',
-    });
-    await ProfessorDAO.create({
+    }); */
+    /* await ProfessorDAO.create({
         nome: 'Marcio',
         sexo: 'm',
-    });
+    }); */
 
     // const professor = await ProfessorDAO.findById(1);
     // console.log(professor); */
-    await DisciplinaDAO.create({
+    /* await DisciplinaDAO.create({
         nome: 'POO',
-    });
-    const turma = await TurmaDAO.create({
+    }); */
+    /* const turma = await TurmaDAO.create({
         disciplinaId: 1,
         professorId: 5,
         semestre: 1,
         ano: 2021,
     });
-    console.log(turma);
+    console.log(turma); */
+    const resultado = await AlunoDAO.findById({
+        matricula: 7,
+    });
+    console.log(resultado);
 }
 main();
