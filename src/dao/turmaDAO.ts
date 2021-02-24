@@ -49,6 +49,18 @@ abstract class TurmaDAO {
         }
         return null;
     }
+
+    public static async removeById(id: number): Promise<void> {
+        const rs = await Database.connection.query<ResultSetHeader>(
+            `DELETE FROM TURMA WHERE ID = ${id}`,
+        );
+        const resultado = rs[0].affectedRows;
+        if (resultado > 0) {
+            console.log('A turma foi removida!');
+        } else {
+            console.log('Nenhuma turma com este id foi encontrada!');
+        }
+    }
 }
 
 export default TurmaDAO;

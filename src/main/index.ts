@@ -38,13 +38,23 @@ async function main() {
     /* const remove = await AlunoDAO.removeById({
         matricula: 6,
     }); */
-    const resultadodis = await DisciplinaDAO.removeById({
+    /* const resultadodis = await DisciplinaDAO.removeById({
         id: 20,
-    });
+    }); */
     // const resultadoprofid = await ProfessorDAO.findById(5);
     /* const resultadoprof = await ProfessorDAO.removeById({
         id: 7,
     }); */
-    const up = await AlunoDAO.update(9, { sexo: 'm' });
+    // const up = await AlunoDAO.update(9, { sexo: 'm' });
+    /* onst resultado = await TurmaDAO.findById(4);
+    if (resultado != null) {
+        console.log(resultado);
+    } else {
+        console.log('Turma não existente');
+    } */
+    const de = await TurmaDAO.removeById(5);
+    if (de != null) {
+        console.log(de);
+    }
 }
 main();
