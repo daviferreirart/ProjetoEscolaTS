@@ -1,5 +1,6 @@
-import { ResultSetHeader } from 'mysql2/promise';
+import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import Database from '../database/database';
+import Disciplina from '../models/disciplina';
 import Turma from '../models/turma';
 import DisciplinaDAO from './disciplinaDAO';
 import CreateTurmaDTO from './dto/CreateTurmaDTO';
@@ -25,6 +26,24 @@ abstract class TurmaDAO {
                 disciplinaId,
                 semestre,
                 ano,
+            );
+            return turma;
+        }
+        return null;
+    }
+
+    public static async findById(id: number): Promise<Turma | null> {
+        const rs = await Database.connection.query<RowDataPacket[]>(
+            `SELECT * FROM TURMA WHERE ID = ${id}`,
+        );
+        const resultado = rs[0][0];
+        if (resultado) {
+            const turma = new Turma(
+                resultado.ID,
+                resultado.PROFESSORID,
+                resultado.DISCIPLINAID,
+                resultado.SEMESTRE,
+                resultado.ANO,
             );
             return turma;
         }
