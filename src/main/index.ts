@@ -41,9 +41,10 @@ async function main() {
     /* const resultadodis = await DisciplinaDAO.removeById({
         id: 20,
     }); */
-    // const resultadoprofid = await ProfessorDAO.findById(5);
+    const resultadoprofid = await ProfessorDAO.findById(5);
+    console.log(resultadoprofid);
     /* const resultadoprof = await ProfessorDAO.removeById({
-        id: 7,
+        id: ,
     }); */
     // const up = await AlunoDAO.update(9, { sexo: 'm' });
     /* onst resultado = await TurmaDAO.findById(4);
@@ -52,7 +53,7 @@ async function main() {
     } else {
         console.log('Turma não existente');
     } */
-    const de = await TurmaDAO.removeById(5);
+    const de = await TurmaDAO.removeById(21);
     if (de != null) {
         console.log(de);
     }
