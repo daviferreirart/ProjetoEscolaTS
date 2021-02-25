@@ -1,8 +1,15 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
 class Aluno {
-    constructor(
-        public matricula: number,
-        public nome: string,
-        public sexo: string,
-    ) {}
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    @Column()
+    nome: string;
+
+    @Column()
+    sexo: string;
 }
+
 export default Aluno;

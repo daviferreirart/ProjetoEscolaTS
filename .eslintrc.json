@@ -19,6 +19,7 @@
         "prettier"
     ],
     "rules": {
+        "class-methods-use-this":"off",
         "no-param-reassign": "off",
         "no-useless-constructor": "off",
         "no-use-before-define": "off",

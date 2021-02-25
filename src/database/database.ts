@@ -1,17 +1,5 @@
-import mysql, { Connection } from 'mysql2/promise';
+import { createConnection } from 'typeorm';
 
-abstract class Database {
-    static connection: Connection;
-
-    static async connect(): Promise<void> {
-        this.connection = await mysql.createConnection({
-            host: 'localhost',
-            port: 3306,
-            user: 'root',
-            password: 'password',
-            database: 'ESCOLA',
-        });
-        console.log('Conectado ao banco!');
-    }
-}
-export default Database;
+createConnection().then(() => {
+    console.log('Conectado ao banco!');
+});

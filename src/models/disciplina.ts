@@ -1,4 +1,11 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
 class Disciplina {
-    constructor(public id: number, public nome: string) {}
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    @Column()
+    nome: string;
 }
 export default Disciplina;
