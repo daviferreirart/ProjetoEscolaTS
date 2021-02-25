@@ -29,8 +29,15 @@ abstract class DisciplinaDAO {
         return undefined;
     }
 
-    /* public static async removeById({
+    public static async removeById({
         id,
-    }: Pick<Disciplina, 'id'>): Promise<void> {} */
+    }: Pick<Disciplina, 'id'>): Promise<boolean> {
+        const disciplinaRepository = getRepository(Disciplina);
+        const rs = await disciplinaRepository.delete(id);
+        if (rs.affected) {
+            return rs.affected > 0;
+        }
+        return false;
+    }
 }
 export default DisciplinaDAO;
