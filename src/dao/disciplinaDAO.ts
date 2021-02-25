@@ -1,60 +1,36 @@
-import { ResultSetHeader, RowDataPacket, QueryError } from 'mysql2/promise';
-import Database from '../database/database';
+import { getRepository } from 'typeorm';
+import Aluno from '../models/aluno';
 import Disciplina from '../models/disciplina';
 import CreateDisciplonaDTO from './dto/CreateDisciplinaDTO';
 
 abstract class DisciplinaDAO {
     public static async create({
         nome,
-    }: CreateDisciplonaDTO): Promise<Disciplina | null> {
-        const rs = await Database.connection.query<ResultSetHeader>(
-            `INSERT INTO DISCIPLINAS(NOME) VALUES ('${nome
-                .trim()
-                .toUpperCase()}')`,
-        );
-        if (rs[0].insertId) {
-            const disciplina = new Disciplina(rs[0].insertId, nome);
+    }: CreateDisciplonaDTO): Promise<Disciplina | undefined> {
+        const disciplinaRepository = getRepository(Disciplina);
+        nome = nome.trim().toUpperCase();
+        const disciplina = disciplinaRepository.create({ nome });
+        await disciplinaRepository.save(disciplina);
+        if (disciplina) {
             return disciplina;
         }
-        return null;
+        return undefined;
     }
 
-    public static async findById(id: number): Promise<Disciplina | null> {
-        const rs = await Database.connection.query<RowDataPacket[]>(
-            `SELECT * FROM DISCIPLINAS WHERE ID = ${id}`,
-        );
-        const data = rs[0][0];
-        if (data) {
-            const disciplina = new Disciplina(data.ID, data.NOME);
-            return disciplina;
-        }
-        return null;
-    }
-
-    public static async removeById({
+    public static async findById({
         id,
-    }: Pick<Disciplina, 'id'>): Promise<void> {
-        try {
-            const rs = await Database.connection.query<ResultSetHeader>(
-                `DELETE FROM DISCIPLINAS WHERE ID  = ${id}`,
-            );
-            const resultado = rs[0].affectedRows;
-            if (resultado > 0) {
-                console.log('Disciplina removida com sucesso!');
-            } else {
-                console.log('Disciplina não encontrada!');
-            }
-        } catch (error) {
-            if (error instanceof Error) {
-                if (error.code === 'ER_ROW_IS_REFERENCED_2') {
-                    console.log(
-                        'Não foi possivel remover a disciplina, ela está vinculada a alguma turma! ',
-                    );
-                } else {
-                    console.log('Erro ao remover a disciplina');
-                }
-            }
+    }: Pick<Aluno, 'id'>): Promise<Disciplina | undefined> {
+        const disciplinaRepository = getRepository(Disciplina);
+        const disciplina = await disciplinaRepository.findOne(id);
+        if (disciplina) {
+            return disciplina;
         }
+
+        return undefined;
     }
+
+    /* public static async removeById({
+        id,
+    }: Pick<Disciplina, 'id'>): Promise<void> {} */
 }
 export default DisciplinaDAO;

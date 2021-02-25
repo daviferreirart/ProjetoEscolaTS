@@ -1,23 +1,8 @@
 import { Router } from 'express';
 import * as Joi from 'joi';
-import { string } from 'joi';
 import AlunoDAO from '../dao/alunoDAO';
 
 const router = Router();
-router.get('/aluno', async (request, response) => {
-    const { body } = request;
-
-    const schema = Joi.object({
-        id: Joi.string().uuid().required(),
-    });
-    const rs = schema.validate(body);
-    if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
-    }
-    const aluno = await AlunoDAO.findById({ id: body.id });
-    return response.status(200).json(aluno);
-});
-
 router.post('/aluno', async (request, response) => {
     const { body } = request;
 
@@ -35,6 +20,19 @@ router.post('/aluno', async (request, response) => {
         sexo: String(body.sexo),
     });
     return response.status(201).json(aluno);
+});
+router.get('/aluno', async (request, response) => {
+    const { body } = request;
+
+    const schema = Joi.object({
+        id: Joi.string().uuid().required(),
+    });
+    const rs = schema.validate(body);
+    if (rs.error) {
+        return response.status(400).json({ error: rs.error.message });
+    }
+    const aluno = await AlunoDAO.findById({ id: body.id });
+    return response.status(200).json(aluno);
 });
 
 router.delete('/aluno', async (request, response) => {
