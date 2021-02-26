@@ -1,6 +1,5 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-import Database from '../database/database';
-import Disciplina from '../models/disciplina';
+import { getRepository } from 'typeorm';
+import AppError from '../error/AppError';
 import Turma from '../models/turma';
 import DisciplinaDAO from './disciplinaDAO';
 import CreateTurmaDTO from './dto/CreateTurmaDTO';
@@ -12,24 +11,25 @@ abstract class TurmaDAO {
         disciplinaId,
         semestre,
         ano,
-    }: CreateTurmaDTO): Promise<Turma | null> {
-        const professor = await ProfessorDAO.findById(professorId);
-        const disciplina = await DisciplinaDAO.findById(disciplinaId);
-
-        if (professor && disciplina) {
-            const rs = await Database.connection.query<ResultSetHeader>(`
-                INSERT INTO TURMA(PROFESSORID,DISCIPLINAID,SEMESTRE,ANO) VALUES (
-                ${professorId}, ${disciplinaId},${semestre},${ano})`);
-            const turma = new Turma(
-                rs[0].insertId,
-                professorId,
-                disciplinaId,
-                semestre,
-                ano,
-            );
-            return turma;
+    }: CreateTurmaDTO): Promise<Turma | undefined> {
+        const professor = await ProfessorDAO.findById({ id: professorId });
+        if (!professor) {
+            throw new AppError('Professor não encontrado!');
         }
-        return null;
+        const disciplina = await DisciplinaDAO.findById({ id: disciplinaId });
+        if (!disciplina) {
+            throw new AppError('Disciplina não encontrada!');
+        }
+        const turmaRepository = getRepository(Turma);
+
+        const turma = turmaRepository.create({
+            professor,
+            disciplina,
+            semestre,
+            ano,
+        });
+        await turmaRepository.save(turma);
+        return turma;
     }
 
     public static async findById(id: number): Promise<Turma | null> {

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as Joi from 'joi';
 import DisciplinaDAO from '../dao/disciplinaDAO';
+import AppError from '../error/AppError';
 
 const router = Router();
 
@@ -10,9 +11,9 @@ router.post('/disciplina', async (request, response) => {
     const schema = Joi.object({
         nome: Joi.string().max(50).required(),
     });
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
     const disciplina = await DisciplinaDAO.create({
         nome: String(body.nome),
@@ -25,9 +26,9 @@ router.get('/disciplina', async (request, response) => {
     const schema = Joi.object({
         id: Joi.string().uuid().required(),
     });
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
     const disciplina = await DisciplinaDAO.findById({ id: body.id });
     return response.status(200).json({ disciplina });
@@ -35,12 +36,12 @@ router.get('/disciplina', async (request, response) => {
 
 router.delete('/disciplina', async (request, response) => {
     const { body } = request;
-    const scheme = Joi.object({
+    const schema = Joi.object({
         id: Joi.string().uuid().required(),
     });
-    const rs = scheme.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
     const rsDelete = await DisciplinaDAO.removeById({ id: body.id });
     return response.status(200).json({ resultado: rsDelete });

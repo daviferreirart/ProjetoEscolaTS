@@ -1,0 +1,29 @@
+import { Router } from 'express';
+import * as Joi from 'joi';
+import TurmaDAO from '../dao/turmaDAO';
+import AppError from '../error/AppError';
+
+const router = Router();
+
+router.post('/turma', async (request, response) => {
+    const { body } = request;
+    const schema = Joi.object({
+        professorId: Joi.string().uuid().required(),
+        disciplinaId: Joi.string().uuid().required(),
+        semestre: Joi.number().allow(1, 2).valid().required(),
+        ano: Joi.number().min(1000).max(9999).required(),
+    });
+    const rs = schema.validate(body, { abortEarly: false });
+    if (rs.error) {
+        throw new AppError(rs.error.message);
+    }
+    const turma = await TurmaDAO.create({
+        disciplinaId: body.disciplinaId,
+        professorId: body.professorId,
+        ano: body.ano,
+        semestre: body.semestre,
+    });
+    return response.status(201).json(turma);
+});
+
+export default router;

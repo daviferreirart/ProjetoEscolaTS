@@ -1,4 +1,9 @@
 import Turma from '../../models/turma';
 
-type CreateTurmaDTO = Omit<Turma, 'id'>;
+interface CreateTurmaDTO
+    extends Omit<Turma, 'id' | 'professor' | 'disciplina'> {
+    professorId: string;
+    disciplinaId: string;
+}
+
 export default CreateTurmaDTO;

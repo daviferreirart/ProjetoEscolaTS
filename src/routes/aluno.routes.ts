@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import * as Joi from 'joi';
 import AlunoDAO from '../dao/alunoDAO';
+import AppError from '../error/AppError';
 
 const router = Router();
+
 router.post('/aluno', async (request, response) => {
     const { body } = request;
 
@@ -11,9 +13,11 @@ router.post('/aluno', async (request, response) => {
         sexo: Joi.string().length(1).required(),
     });
 
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
 
-    if (rs.error) return response.status(400).json({ error: rs.error.message });
+    if (rs.error) {
+        throw new AppError(rs.error.message);
+    }
 
     const aluno = await AlunoDAO.create({
         nome: String(body.nome),
@@ -21,6 +25,7 @@ router.post('/aluno', async (request, response) => {
     });
     return response.status(201).json(aluno);
 });
+
 router.get('/aluno', async (request, response) => {
     const { body } = request;
 

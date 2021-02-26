@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as Joi from 'joi';
 import ProfessorDAO from '../dao/professorDAO';
+import AppError from '../error/AppError';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.post('/professor', async (request, response) => {
     });
     const rs = schema.validate(body);
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
     const professor = await ProfessorDAO.create({
         nome: String(body.nome),
@@ -30,7 +31,7 @@ router.get('/professor', async (request, response) => {
 
     const rs = schema.validate(body);
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
     const professor = await ProfessorDAO.findById({ id: body.id });
     return response.status(200).json({ professor });

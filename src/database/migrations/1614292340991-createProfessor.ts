@@ -30,6 +30,6 @@ export default class createProfessor1614292340991
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.dropTable('professor');
+        await queryRunner.dropTable('professor');
     }
 }
