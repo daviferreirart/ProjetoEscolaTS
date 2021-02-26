@@ -1,5 +1,4 @@
-import { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-import Database from '../database/database';
+import { getRepository } from 'typeorm';
 import Professor from '../models/professor';
 import CreateProfessorDTO from './dto/CreateProfessorDTO';
 
@@ -7,31 +6,28 @@ abstract class ProfessorDAO {
     public static async create({
         nome,
         sexo,
-    }: CreateProfessorDTO): Promise<Professor | null> {
-        const rs = await Database.connection.query<ResultSetHeader>(
-            `INSERT INTO PROFESSOR(NOME,SEXO) VALUES ('${nome
-                .trim()
-                .toUpperCase()}','${sexo.trim().toUpperCase()}')`,
-        );
-        if (rs[0].insertId) {
-            const professor = new Professor(rs[0].insertId, nome, sexo);
+    }: CreateProfessorDTO): Promise<Professor | undefined> {
+        const professorRepository = getRepository(Professor);
+        nome = nome.trim().toUpperCase();
+        sexo = sexo.trim().toUpperCase();
+        const professor = professorRepository.create({ nome, sexo });
+        await professorRepository.save(professor);
+        if (professor) {
             return professor;
         }
-        return null;
+        return undefined;
     }
 
-    public static async findById(id: number): Promise<Professor | null> {
-        const rs = await Database.connection.query<RowDataPacket[]>(
-            `SELECT * FROM PROFESSOR WHERE ID = ${id}`,
-        );
-        const data = rs[0][0];
-        if (data) {
-            const professor = new Professor(data.ID, data.NOME, data.SEXO);
-            console.log('Professor encontrado!');
+    public static async findById({
+        id,
+    }: Pick<Professor, 'id'>): Promise<Professor | undefined> {
+        const professorRepository = getRepository(Professor);
+        const professor = await professorRepository.findOne(id);
+        if (professor) {
             return professor;
         }
-        console.log('Professor não encontrado');
-        return null;
+
+        return undefined;
     }
 
     public static async removeById({
@@ -60,4 +56,5 @@ abstract class ProfessorDAO {
         }
     }
 }
+
 export default ProfessorDAO;
