@@ -26,4 +26,31 @@ router.post('/turma', async (request, response) => {
     return response.status(201).json(turma);
 });
 
+router.get('/turma', async (request, response) => {
+    const { body } = request;
+
+    const schema = Joi.object({
+        id: Joi.string().uuid().required(),
+    });
+    const rs = schema.validate(body, { abortEarly: false });
+    if (rs.error) {
+        throw new AppError(rs.error.message);
+    }
+    const turma = await TurmaDAO.findById({ id: body.id });
+    return response.status(200).json(turma);
+});
+
+router.delete('/turma', async (request, response) => {
+    const { body } = request;
+    const schema = Joi.object({
+        id: Joi.string().uuid().required(),
+    });
+    const rs = schema.validate(body, { abortEarly: false });
+    if (rs.error) {
+        throw new AppError(rs.error.message);
+    }
+    const rsDelete = await TurmaDAO.removeById({ id: body.id });
+    return response.status(200).json({ resultado: rsDelete });
+});
+
 export default router;

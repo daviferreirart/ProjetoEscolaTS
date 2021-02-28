@@ -11,7 +11,7 @@ router.post('/professor', async (request, response) => {
         nome: Joi.string().max(50).required(),
         sexo: Joi.string().length(1).required(),
     });
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
         throw new AppError(rs.error.message);
     }
@@ -29,7 +29,7 @@ router.get('/professor', async (request, response) => {
         id: Joi.string().uuid().required(),
     });
 
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
         throw new AppError(rs.error.message);
     }

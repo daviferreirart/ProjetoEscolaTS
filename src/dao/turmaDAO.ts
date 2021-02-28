@@ -32,35 +32,27 @@ abstract class TurmaDAO {
         return turma;
     }
 
-    public static async findById(id: number): Promise<Turma | null> {
-        const rs = await Database.connection.query<RowDataPacket[]>(
-            `SELECT * FROM TURMA WHERE ID = ${id}`,
-        );
-        const resultado = rs[0][0];
-        if (resultado) {
-            const turma = new Turma(
-                resultado.ID,
-                resultado.PROFESSORID,
-                resultado.DISCIPLINAID,
-                resultado.SEMESTRE,
-                resultado.ANO,
-            );
+    public static async findById({
+        id,
+    }: Pick<Turma, 'id'>): Promise<Turma | undefined> {
+        const turmaRepository = getRepository(Turma);
+
+        const turma = await turmaRepository.findOne(id);
+        if (turma) {
             return turma;
         }
-        return null;
+        return undefined;
     }
 
-    public static async removeById(id: number): Promise<void> {
-        const rs = await Database.connection.query<ResultSetHeader>(
-            `DELETE FROM TURMA WHERE ID = ${id}`,
-        );
-        const resultado = rs[0].affectedRows;
-        if (resultado > 0) {
-            console.log('A turma foi removida!');
-        } else {
-            console.log('Nenhuma turma com este id foi encontrada!');
+    public static async removeById({
+        id,
+    }: Pick<Turma, 'id'>): Promise<boolean> {
+        const turmaRepository = getRepository(Turma);
+        const rs = await turmaRepository.delete(id);
+        if (rs.affected) {
+            return rs.affected > 0;
         }
+        return false;
     }
 }
-
 export default TurmaDAO;

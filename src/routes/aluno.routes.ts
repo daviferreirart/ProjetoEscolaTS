@@ -32,9 +32,9 @@ router.get('/aluno', async (request, response) => {
     const schema = Joi.object({
         id: Joi.string().uuid().required(),
     });
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
     const aluno = await AlunoDAO.findById({ id: body.id });
     return response.status(200).json(aluno);
@@ -46,9 +46,9 @@ router.delete('/aluno', async (request, response) => {
     const schema = Joi.object({
         id: Joi.string().uuid().required(),
     });
-    const rs = schema.validate(body);
+    const rs = schema.validate(body, { abortEarly: false });
     if (rs.error) {
-        return response.status(400).json({ error: rs.error.message });
+        throw new AppError(rs.error.message);
     }
 
     const rsDelete = await AlunoDAO.removeById({ id: body.id });
