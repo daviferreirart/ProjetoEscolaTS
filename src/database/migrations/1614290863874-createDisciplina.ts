@@ -15,12 +15,6 @@ export default class createDisciplina1614290863874
                         generationStrategy: 'uuid',
                     },
                     {
-                        name: 'cpf',
-                        type: 'varchar',
-                        length: '14',
-                        isUnique: true,
-                    },
-                    {
                         name: 'nome',
                         type: 'varchar',
                         length: '50',
