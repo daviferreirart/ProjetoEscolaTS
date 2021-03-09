@@ -32,7 +32,14 @@ abstract class ProfessorDAO {
 
     public static async removeById({
         id,
-    }: Pick<Professor, 'id'>): Promise<void> {}
+    }: Pick<Professor, 'id'>): Promise<boolean> {
+        const professorRepository = getRepository(Professor);
+        const professor = await professorRepository.delete(id);
+        if (professor.affected) {
+            return professor.affected > 0;
+        }
+        return false;
+    }
 }
 
 export default ProfessorDAO;

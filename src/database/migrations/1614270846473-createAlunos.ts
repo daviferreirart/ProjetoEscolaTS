@@ -1,3 +1,4 @@
+import { number } from 'joi';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export default class createAlunos1614270846473 implements MigrationInterface {
@@ -12,6 +13,12 @@ export default class createAlunos1614270846473 implements MigrationInterface {
                         isPrimary: true,
                         isGenerated: true,
                         generationStrategy: 'uuid',
+                    },
+                    {
+                        name: 'cpf',
+                        type: 'varchar',
+                        length: '14',
+                        isUnique: true,
                     },
                     {
                         name: 'nome',

@@ -1,58 +1,65 @@
 import { Router } from 'express';
-import * as Joi from 'joi';
+import Joi from 'joi';
+
 import AlunoDAO from '../dao/alunoDAO';
 import AppError from '../error/AppError';
+import Aluno from '../models/aluno';
 
 const router = Router();
 
+type Schema = {
+    [k in keyof Omit<Aluno, 'id'>]: Joi.Schema;
+};
 router.post('/aluno', async (request, response) => {
     const { body } = request;
 
-    const schema = Joi.object({
+    const schema: Schema = {
         nome: Joi.string().max(50).required(),
-        sexo: Joi.string().length(1).required(),
-    });
+        sexo: Joi.string().length(1).valid('m', 'f', 'M', 'F').required(),
+        cpf: Joi.string().length(11).required(),
+    };
 
-    const rs = schema.validate(body, { abortEarly: false });
+    const rs = Joi.object(schema).validate(body, { abortEarly: false });
 
     if (rs.error) {
         throw new AppError(rs.error.message);
     }
-
+    const { nome, sexo, cpf } = body;
     const aluno = await AlunoDAO.create({
-        nome: String(body.nome),
-        sexo: String(body.sexo),
+        nome,
+        sexo,
+        cpf,
     });
     return response.status(201).json(aluno);
 });
 
-router.get('/aluno', async (request, response) => {
-    const { body } = request;
+router.get('/aluno/:cpf', async (request, response) => {
+    const { cpf } = request.params;
 
     const schema = Joi.object({
-        id: Joi.string().uuid().required(),
+        cpf: Joi.string().length(11).required(),
     });
-    const rs = schema.validate(body, { abortEarly: false });
+    const rs = schema.validate({ cpf }, { abortEarly: false });
     if (rs.error) {
         throw new AppError(rs.error.message);
     }
-    const aluno = await AlunoDAO.findById({ id: body.id });
+    const aluno = await AlunoDAO.findByCPF({ cpf });
     return response.status(200).json(aluno);
 });
 
-router.delete('/aluno', async (request, response) => {
-    const { body } = request;
+router.delete('/aluno/:cpf', async (request, response) => {
+    const { cpf } = request.params;
 
     const schema = Joi.object({
-        id: Joi.string().uuid().required(),
+        cpf: Joi.string().length(11).required(),
     });
-    const rs = schema.validate(body, { abortEarly: false });
+    const rs = schema.validate({ cpf }, { abortEarly: false });
     if (rs.error) {
         throw new AppError(rs.error.message);
     }
 
-    const rsDelete = await AlunoDAO.removeById({ id: body.id });
-    return response.status(200).json({ anything: rsDelete });
+    const rsDelete = await AlunoDAO.removeByCPF({ cpf });
+    return response.status(204).send();
 });
 
 export default router;

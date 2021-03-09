@@ -37,4 +37,18 @@ router.get('/professor', async (request, response) => {
     return response.status(200).json({ professor });
 });
 
+router.delete('/professor', async (request, response) => {
+    const { body } = request;
+    const schema = Joi.object({
+        id: Joi.string().uuid().required(),
+    });
+
+    const rs = schema.validate(body, { abortEarly: false });
+    if (rs.error) {
+        throw new AppError(rs.error.message);
+    }
+    const professor = await ProfessorDAO.removeById({ id: body.id });
+    return response.status(200).json({ professor });
+});
+
 export default router;

@@ -10,6 +10,9 @@ class Aluno {
 
     @Column()
     sexo: string;
+
+    @Column()
+    cpf: string;
 }
 
 export default Aluno;
