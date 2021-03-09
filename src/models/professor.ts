@@ -12,6 +12,9 @@ class Professor {
     @Column()
     sexo: string;
 
+    @Column()
+    cpf: string;
+
     @OneToMany(() => Turma, turma => turma.professor)
     turmas: Turma[];
 }

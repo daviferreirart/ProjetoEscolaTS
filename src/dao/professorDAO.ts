@@ -18,11 +18,11 @@ abstract class ProfessorDAO {
         return undefined;
     }
 
-    public static async findById({
-        id,
-    }: Pick<Professor, 'id'>): Promise<Professor | undefined> {
+    public static async findByCPF({
+        cpf,
+    }: Pick<Professor, 'cpf'>): Promise<Professor | undefined> {
         const professorRepository = getRepository(Professor);
-        const professor = await professorRepository.findOne(id);
+        const professor = await professorRepository.findOne(cpf);
         if (professor) {
             return professor;
         }
