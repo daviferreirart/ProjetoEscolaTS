@@ -20,6 +20,12 @@ export default class createProfessor1614292340991
                         length: '50',
                     },
                     {
+                        name: 'cpf',
+                        type: 'varchar',
+                        length: '14',
+                        isUnique: true,
+                    },
+                    {
                         name: 'sexo',
                         type: 'varchar',
                         length: '1',
