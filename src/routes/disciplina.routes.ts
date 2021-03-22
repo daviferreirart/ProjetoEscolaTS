@@ -31,7 +31,10 @@ router.get('/disciplina', async (request, response) => {
         throw new AppError(rs.error.message);
     }
     const disciplina = await DisciplinaDAO.findById({ id: body.id });
-    return response.status(200).json({ disciplina });
+    if (disciplina) {
+        return response.status(200).json({ disciplina });
+    }
+    return response.status(200).json('Não existe disciplina com este id');
 });
 
 router.delete('/disciplina', async (request, response) => {
