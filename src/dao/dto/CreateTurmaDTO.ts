@@ -2,7 +2,7 @@ import Turma from '../../models/turma';
 
 interface CreateTurmaDTO
     extends Omit<Turma, 'id' | 'professor' | 'disciplina'> {
-    professorId: string;
+    professorCPF: string;
     disciplinaId: string;
 }
 

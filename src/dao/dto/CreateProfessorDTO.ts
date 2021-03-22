@@ -1,4 +1,4 @@
 import Professor from '../../models/professor';
 
-type CreateProfessorDTO = Omit<Professor, 'id'>;
+type CreateProfessorDTO = Omit<Professor, 'id' | 'turmas'>;
 export default CreateProfessorDTO;

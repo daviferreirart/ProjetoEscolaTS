@@ -7,12 +7,12 @@ import ProfessorDAO from './professorDAO';
 
 abstract class TurmaDAO {
     public static async create({
-        professorId,
+        professorCPF,
         disciplinaId,
         semestre,
         ano,
     }: CreateTurmaDTO): Promise<Turma | undefined> {
-        const professor = await ProfessorDAO.findById({ id: professorId });
+        const professor = await ProfessorDAO.findByCPF({ cpf: professorCPF });
         if (!professor) {
             throw new AppError('Professor não encontrado!');
         }

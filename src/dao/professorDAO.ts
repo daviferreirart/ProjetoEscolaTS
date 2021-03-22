@@ -1,16 +1,26 @@
 import { getRepository } from 'typeorm';
+import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 import Professor from '../models/professor';
 import CreateProfessorDTO from './dto/CreateProfessorDTO';
+import AppError from '../error/AppError';
 
 abstract class ProfessorDAO {
     public static async create({
         nome,
         sexo,
+        cpf,
     }: CreateProfessorDTO): Promise<Professor | undefined> {
         const professorRepository = getRepository(Professor);
         nome = nome.trim().toUpperCase();
         sexo = sexo.trim().toUpperCase();
-        const professor = professorRepository.create({ nome, sexo });
+        if (!cpfValidator.isValid(cpf)) {
+            throw new AppError('CPF Inválido');
+        }
+        const professor = professorRepository.create({
+            nome,
+            sexo,
+            cpf: cpfValidator.format(cpf),
+        });
         await professorRepository.save(professor);
         if (professor) {
             return professor;
@@ -22,7 +32,9 @@ abstract class ProfessorDAO {
         cpf,
     }: Pick<Professor, 'cpf'>): Promise<Professor | undefined> {
         const professorRepository = getRepository(Professor);
-        const professor = await professorRepository.findOne(cpf);
+        const professor = await professorRepository.findOne({
+            where: { cpf: cpfValidator.format(cpf) },
+        });
         if (professor) {
             return professor;
         }

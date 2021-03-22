@@ -8,7 +8,7 @@ const router = Router();
 router.post('/turma', async (request, response) => {
     const { body } = request;
     const schema = Joi.object({
-        professorId: Joi.string().uuid().required(),
+        professorCPF: Joi.string().uuid().required(),
         disciplinaId: Joi.string().uuid().required(),
         semestre: Joi.number().allow(1, 2).valid().required(),
         ano: Joi.number().min(1000).max(9999).required(),
@@ -19,7 +19,7 @@ router.post('/turma', async (request, response) => {
     }
     const turma = await TurmaDAO.create({
         disciplinaId: body.disciplinaId,
-        professorId: body.professorId,
+        professorCPF: body.professorCPF,
         ano: body.ano,
         semestre: body.semestre,
     });
