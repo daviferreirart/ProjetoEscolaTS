@@ -8,7 +8,7 @@ const router = Router();
 router.post('/turma', async (request, response) => {
     const { body } = request;
     const schema = Joi.object({
-        professorCPF: Joi.string().uuid().required(),
+        professorCPF: Joi.string().length(11).required(),
         disciplinaId: Joi.string().uuid().required(),
         semestre: Joi.number().allow(1, 2).valid().required(),
         ano: Joi.number().min(1000).max(9999).required(),
@@ -50,7 +50,7 @@ router.delete('/turma', async (request, response) => {
         throw new AppError(rs.error.message);
     }
     const rsDelete = await TurmaDAO.removeById({ id: body.id });
-    return response.status(200).json({ resultado: rsDelete });
+    return response.status(200).json({ resultadoDelete: rsDelete });
 });
 
 export default router;
