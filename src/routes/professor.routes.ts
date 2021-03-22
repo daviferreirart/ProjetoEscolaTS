@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as Joi from 'joi';
+import AlunoDAO from '../dao/alunoDAO';
 import ProfessorDAO from '../dao/professorDAO';
 import AppError from '../error/AppError';
 import Professor from '../models/professor';
@@ -45,18 +46,19 @@ router.get('/professor/:cpf', async (request, response) => {
     return response.status(200).json(professor);
 });
 
-router.delete('/professor', async (request, response) => {
-    const { body } = request;
-    const schema = Joi.object({
-        id: Joi.string().uuid().required(),
-    });
+router.delete('/professor/:cpf', async (request, response) => {
+    const { cpf } = request.params;
 
-    const rs = schema.validate(body, { abortEarly: false });
+    const schema = Joi.object({
+        cpf: Joi.string().length(11).required(),
+    });
+    const rs = schema.validate({ cpf }, { abortEarly: false });
+
     if (rs.error) {
         throw new AppError(rs.error.message);
     }
-    const professor = await ProfessorDAO.removeById({ id: body.id });
-    return response.status(200).json({ professor });
+    const rsDelete = await ProfessorDAO.removeByCPF({ cpf });
+    return response.status(204).send();
 });
 
 export default router;

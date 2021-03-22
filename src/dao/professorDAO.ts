@@ -42,13 +42,16 @@ abstract class ProfessorDAO {
         return undefined;
     }
 
-    public static async removeById({
-        id,
-    }: Pick<Professor, 'id'>): Promise<boolean> {
+    public static async removeByCPF({
+        cpf,
+    }: Pick<Professor, 'cpf'>): Promise<boolean> {
         const professorRepository = getRepository(Professor);
-        const professor = await professorRepository.delete(id);
-        if (professor.affected) {
-            return professor.affected > 0;
+        const rs = await professorRepository.delete({
+            cpf: cpfValidator.format(cpf),
+        });
+
+        if (rs.affected) {
+            return rs.affected > 0;
         }
         return false;
     }
