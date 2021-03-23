@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import * as Joi from 'joi';
-import AlunoDAO from '../dao/alunoDAO';
 import ProfessorDAO from '../dao/professorDAO';
 import AppError from '../error/AppError';
 import Professor from '../models/professor';
@@ -59,6 +58,11 @@ router.delete('/professor/:cpf', async (request, response) => {
     }
     const rsDelete = await ProfessorDAO.removeByCPF({ cpf });
     return response.status(204).send();
+});
+
+router.get('/listProfessores', async (request, response) => {
+    const professor = await ProfessorDAO.listProfessores();
+    return response.status(200).json(professor);
 });
 
 export default router;

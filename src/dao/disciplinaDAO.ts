@@ -39,5 +39,12 @@ abstract class DisciplinaDAO {
         }
         return false;
     }
+
+    public static async listDisciplinas(): Promise<Disciplina[]> {
+        const turmaRepository = getRepository(Disciplina);
+        const lista = turmaRepository.find();
+
+        return lista;
+    }
 }
 export default DisciplinaDAO;

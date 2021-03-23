@@ -49,4 +49,9 @@ router.delete('/disciplina', async (request, response) => {
     const rsDelete = await DisciplinaDAO.removeById({ id: body.id });
     return response.status(200).json({ resultado: rsDelete });
 });
+
+router.get('/listTurma', async (request, response) => {
+    const disciplina = await DisciplinaDAO.listDisciplinas();
+    return response.status(200).json(disciplina);
+});
 export default router;

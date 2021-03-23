@@ -55,6 +55,13 @@ abstract class ProfessorDAO {
         }
         return false;
     }
+
+    public static async listProfessores(): Promise<Professor[]> {
+        const professorRepository = getRepository(Professor);
+        const lista = professorRepository.find();
+
+        return lista;
+    }
 }
 
 export default ProfessorDAO;
