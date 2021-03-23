@@ -34,7 +34,7 @@ router.get('/disciplina', async (request, response) => {
     if (disciplina) {
         return response.status(200).json({ disciplina });
     }
-    return response.status(200).json('Não existe disciplina com este id');
+    return response.status(204).json({});
 });
 
 router.delete('/disciplina', async (request, response) => {

@@ -62,4 +62,9 @@ router.delete('/aluno/:cpf', async (request, response) => {
     return response.status(204).send();
 });
 
+router.get('/listaAluno', async (request, response) => {
+    const lista = await AlunoDAO.listAlunos();
+    return response.status(200).json(lista);
+});
+
 export default router;

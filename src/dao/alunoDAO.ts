@@ -55,5 +55,12 @@ abstract class AlunoDAO {
 
         return false;
     }
+
+    public static async listAlunos(): Promise<Aluno[]> {
+        const alunoRepository = getRepository(Aluno);
+        const lista = await alunoRepository.find();
+
+        return lista;
+    }
 }
 export default AlunoDAO;

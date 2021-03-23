@@ -54,5 +54,11 @@ abstract class TurmaDAO {
         }
         return false;
     }
+
+    public static async listTurmas(): Promise<Turma[]> {
+        const turmaRepository = getRepository(Turma);
+        const lista = await turmaRepository.find();
+        return lista;
+    }
 }
 export default TurmaDAO;

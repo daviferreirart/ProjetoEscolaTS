@@ -53,4 +53,9 @@ router.delete('/turma', async (request, response) => {
     return response.status(200).json({ resultadoDelete: rsDelete });
 });
 
+router.get('/listTurma', async (request, response) => {
+    const lista = await TurmaDAO.listTurmas();
+    return response.status(200).json(lista);
+});
+
 export default router;
