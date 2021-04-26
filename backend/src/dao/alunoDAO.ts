@@ -9,13 +9,17 @@ abstract class AlunoDAO {
         nome,
         sexo,
         cpf,
-    }: CreateAlunoDTO): Promise<Aluno | undefined> {
+    }: CreateAlunoDTO): Promise<Aluno> {
         const alunoRepository = getRepository(Aluno);
         nome = nome.trim().toUpperCase();
         sexo = sexo.toUpperCase();
 
         if (!cpfValidator.isValid(cpf)) {
             throw new AppError('CPF invalido');
+        }
+        const result = await this.findByCPF({ cpf });
+        if (result) {
+            throw new AppError('CPF já está cadastrado');
         }
 
         const aluno = alunoRepository.create({
@@ -24,10 +28,7 @@ abstract class AlunoDAO {
             cpf: cpfValidator.format(cpf),
         });
         await alunoRepository.save(aluno);
-        if (aluno) {
-            return aluno;
-        }
-        return undefined;
+        return aluno;
     }
 
     public static async findByCPF({
