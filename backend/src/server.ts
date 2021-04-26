@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import cors from 'cors';
 import express from 'express';
 import 'express-async-errors';
 import alunoRouter from './routes/aluno.routes';
@@ -10,6 +11,9 @@ import './database/database';
 import errorHandler from './error/handler';
 
 const app = express();
+
+app.use(cors());
+
 app.use(express.json());
 
 app.use(alunoRouter, disciplinaRouter, professorRouter, turmaRouter);
