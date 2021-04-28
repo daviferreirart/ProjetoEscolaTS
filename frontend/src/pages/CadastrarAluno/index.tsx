@@ -11,10 +11,10 @@ function CadastrarAluno() {
       try {
          const resultado = await api.post('/aluno', { nome, sexo, cpf });
          if (resultado.status === 201) {
-            alert('Deu certo');
+            alert('Cadastrado com sucesso!');
          }
       } catch (error) {
-         console.log(error);
+         alert('CPF já encontrado cadastrado ou incorreto!');
       }
    }
    return (
