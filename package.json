@@ -5,10 +5,12 @@
   "repository": "https://github.com/DaviFerreiraRT/ProjetoEscolaTS.git",
   "author": "Davi Ferreira <daviferreirart@gmail.com>",
   "license": "MIT",
-  "private":true,
-  "workspaces":["workspaces/*"],
+  "private": true,
+  "workspaces": [
+    "workspaces/*"
+  ],
   "scripts": {
-    "backend":"yarn workspace backend",
-    "frontend":"yarn workspace frontend"
+    "backend": "yarn workspace backend",
+    "frontend": "yarn workspace frontend"
   }
 }
