@@ -1,0 +1,14 @@
+{
+  "name": "ProjetoEscolaTS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/DaviFerreiraRT/ProjetoEscolaTS.git",
+  "author": "Davi Ferreira <daviferreirart@gmail.com>",
+  "license": "MIT",
+  "private":true,
+  "workspaces":["workspaces/*"],
+  "scripts": {
+    "backend":"yarn workspace backend",
+    "frontend":"yarn workspace frontend"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "eslint.packageManager": "yarn",
+  "eslint.workingDirectories": [
+    {
+      "directory": "workspaces/backend",
+      "changeProcessCWD": true
+    },
+    {
+      "directory": "workspaces/frontend",
+      "changeProcessCWD": true
+    }
+  ]
+}
