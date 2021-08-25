@@ -16,22 +16,19 @@ abstract class ProfessorDAO {
         if (!cpfValidator.isValid(cpf)) {
             throw new AppError('CPF Inválido');
         }
-        const professor = professorRepository.create({
-            nome,
-            sexo,
-            cpf: cpfValidator.format(cpf),
-        });
-        const result = await professorRepository.find({
+        const result = await professorRepository.findOne({
             where: { cpf: cpfValidator.format(cpf) },
         });
         if (result) {
             throw new AppError('CPF já cadastrado!');
         }
+        const professor = professorRepository.create({
+            nome,
+            sexo,
+            cpf: cpfValidator.format(cpf),
+        });
         await professorRepository.save(professor);
-        if (professor) {
-            return professor;
-        }
-        return undefined;
+        return professor;
     }
 
     public static async findByCPF({
