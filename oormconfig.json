@@ -1,0 +1,17 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "password",
+    "database": "escola",
+    "entities": [
+        "./workspaces/backend/src/models/*.ts"
+    ],
+    "migrations": [
+        "./workspaces/backend/src/database/migrations/*.ts"
+    ],
+    "cli": {
+        "migrationsDir": "./workspaces/backend/src/database/migrations"
+    }
+}
