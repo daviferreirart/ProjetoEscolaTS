@@ -1,7 +1,6 @@
 import React from 'react'
 import LinkNext from 'next/link'
 import { Link } from '@material-ui/core'
-import CadastrarAluno from './CadastrarAluno'
 import { Container } from './_styles'
 
 const Home: React.FC = () => {
